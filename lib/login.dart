@@ -49,9 +49,27 @@ class _LoginState extends State<Login> {
             ],
           ),
           TextFormField(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              setState(() {});
+            },
             decoration: InputDecoration(labelText: 'Email'),
           ),
           TextFormField(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              setState(() {});
+            },
             obscureText: true,
             decoration: InputDecoration(labelText: 'Password'),
           ),
