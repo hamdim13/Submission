@@ -8,6 +8,10 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final formKey = GlobalKey<FormState>();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,42 +52,99 @@ class _SignupState extends State<Signup> {
               ),
             ],
           ),
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-            onChanged: (value) {
-              setState(() {});
-            },
-            decoration: InputDecoration(labelText: 'Name'),
-          ),
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-            onChanged: (value) {
-              setState(() {});
-            },
-            decoration: InputDecoration(labelText: 'Email'),
-          ),
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-            onChanged: (value) {
-              setState(() {});
-            },
-            obscureText: true,
-            decoration: InputDecoration(labelText: 'Password'),
+          Form(
+            key: formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 8,
+                ),
+                TextFormField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    hintText: "Name",
+                    filled: true,
+                    isDense: true,
+                    fillColor: Color(0xFFF8F8F8),
+                    contentPadding: EdgeInsets.all(14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDEDEDE),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Data diperlukan";
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                TextFormField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                    filled: true,
+                    isDense: true,
+                    fillColor: Color(0xFFF8F8F8),
+                    contentPadding: EdgeInsets.all(14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDEDEDE),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Data diperlukan";
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                TextFormField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                    filled: true,
+                    isDense: true,
+                    fillColor: Color(0xFFF8F8F8),
+                    contentPadding: EdgeInsets.all(14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDEDEDE),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Data diperlukan";
+                    } else if (value.length <= 8) {
+                      return "Minimum Karakter 8";
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                ),
+              ],
+            ),
           ),
           Padding(
             padding: EdgeInsets.all(5),
@@ -114,9 +175,11 @@ class _SignupState extends State<Signup> {
           ElevatedButton(
             child: Text('Register now'),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return Login();
-              }));
+              if (formKey.currentState!.validate()) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Login();
+                }));
+              }
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.redAccent,
